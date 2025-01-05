@@ -21,7 +21,9 @@ class CustomException(Exception):
     
 if __name__ == "__main__":
     try:
-        a = 1/0
+        # a = 1/0
+        logging.info("try block ran")
     except Exception as e:
-        logging.info("Divide by Zero error")
-        raise CustomException(e, sys)
+        logging.info("except block ran")
+        # logging.info("Divide by Zero error")
+        # raise CustomException(e, sys)
