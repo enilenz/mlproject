@@ -13,7 +13,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass 
 
-
+from data_transformation import DataTransformation
+from data_transformation import DataTransformationConfig
 
 @dataclass
 class DataIngestionConfig:
@@ -21,6 +22,7 @@ class DataIngestionConfig:
     test_data_path: str = os.path.join("artifacts", "test.csv")
     raw_data_path: str = os.path.join("artifacts", "data.csv")
 
+# This function handles data from an outside source (could be an sql client, website, or dataframe)
 class DataIngestion:
     def __init__(self):
         self.ingestion_config = DataIngestionConfig()
@@ -28,6 +30,7 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logging.info("Entered the data ingestion component")
         try:
+            # The line below is dependent on the data source
             df = pd.read_csv('notebook\data\stud.csv')
             logging.info("Read the dataset as dataframe")
 
@@ -43,6 +46,7 @@ class DataIngestion:
             test_set.to_csv(self.ingestion_config.test_data_path, index = False, header = True)
 
             logging.info("Data Ingestion completed")
+            print("Train test split initiated")
 
             return(
                 self.ingestion_config.train_data_path,
@@ -54,4 +58,7 @@ class DataIngestion:
 
 if __name__ == "__main__":
     obj = DataIngestion()
-    obj.initiate_data_ingestion()
+    train_data, test_data = obj.initiate_data_ingestion()
+
+    data_transformation = DataTransformation()
+    data_transformation.initiate_data_transformation(train_data, test_data)
