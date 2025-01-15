@@ -6,5 +6,6 @@ scikit-learn
 catboost
 xgboost
 dill
+Flask
 #The -e . is commented after first package build in order to avoid rebuilding the package when new requirements are added
 #-e . 
